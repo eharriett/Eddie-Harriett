@@ -137,14 +137,14 @@ Asteroid::Asteroid(double massin, double xin, double yin){
    // fx = 0; fy = 0; xvel = 0; yvel = 0; xaccel = 0; yaccel = 0;
 }
 
-void setForce(Asteroid a, double forcexin, double forceyin){
+void setForce(Asteroid &a, double forcex, double forcey){
     cout << a.fx << " fx" << endl;
-    a.fx = a.fx + forcexin;
+    a.fx = a.fx + forcex;
     cout << a.fx << " fx after" << endl;
-    a.fy = a.fy + forceyin;
+    a.fy = a.fy + forcey;
 }
 
-void updatePosition(Asteroid a){
+void updatePosition(Asteroid &a){
     a.xaccel = a.fx / a.massAst;
     a.yaccel = a.fy / a.massAst;
     a.xvel = a.xvel + a.xaccel * t;
@@ -153,14 +153,14 @@ void updatePosition(Asteroid a){
     a.y = a.y + a.yvel * t;
 }
 
-double dist(Asteroid a, Asteroid b)
+double dist(Asteroid &a, Asteroid &b)
 {
     double dista = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
     return dista;
 
 }
 
-double updateForce(Asteroid a, Asteroid b)
+double updateForce(Asteroid &a, Asteroid &b)
 {
     double slope = (a.y - b.y)/(a.x - b.x);
     if(slope > 1 || slope < -1){
@@ -170,9 +170,15 @@ double updateForce(Asteroid a, Asteroid b)
     double forcex = (G * a.massAst * b.massAst)/(pow(dist(a,b),2)) * cos(angle);
     double forcey = (G * a.massAst * b.massAst)/(pow(dist(a,b),2)) * sin(angle);
 
-    setForce(a, forcex, forcey);
-    setForce(b, -forcex, -forcey);
-    cout << a.fx << endl;
+    //setForce(*a, forcex, forcey);
+    //setForce(*b, -forcex, -forcey);
+    cout << a.fx << " fx" << endl;
+    a.fx = a.fx + forcex;
+    cout << a.fx << " fx after" << endl;
+    a.fy = a.fy + forcey;
+
+    b.fx = b.fx - forcex;
+    b.fy = b.fy - forcey;
 }
 
 int main() 
