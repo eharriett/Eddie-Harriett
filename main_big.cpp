@@ -128,23 +128,23 @@ class Asteroid{
         double xvel, yvel, xaccel, yaccel;
 };
 Asteroid::Asteroid(void){
-
 }
+
 Asteroid::Asteroid(double massin, double xin, double yin){
     x = xin;
     y = yin;
     massAst = massin;
-   // fx = 0; fy = 0; xvel = 0; yvel = 0; xaccel = 0; yaccel = 0;
+    fx = 0; fy = 0; xvel = 0; yvel = 0; xaccel = 0; yaccel = 0;
 }
-
+/*
 void setForce(Asteroid &a, double forcex, double forcey){
     cout << a.fx << " fx" << endl;
     a.fx = a.fx + forcex;
     cout << a.fx << " fx after" << endl;
     a.fy = a.fy + forcey;
-}
+}*/
 
-void updatePosition(Asteroid &a){
+void updatePosition(Asteroid a){
     a.xaccel = a.fx / a.massAst;
     a.yaccel = a.fy / a.massAst;
     a.xvel = a.xvel + a.xaccel * t;
@@ -153,32 +153,30 @@ void updatePosition(Asteroid &a){
     a.y = a.y + a.yvel * t;
 }
 
-double dist(Asteroid &a, Asteroid &b)
+double dist(Asteroid a, Asteroid b)
 {
     double dista = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
     return dista;
 
 }
 
-double updateForce(Asteroid &a, Asteroid &b)
+void updateForce(Asteroid* a, Asteroid* b)
 {
-    double slope = (a.y - b.y)/(a.x - b.x);
+    double slope = (a->y - b->y)/(a->x - b->x);
     if(slope > 1 || slope < -1){
         slope = slope - trunc(slope);
     }
     double angle = atan(slope); 
-    double forcex = (G * a.massAst * b.massAst)/(pow(dist(a,b),2)) * cos(angle);
-    double forcey = (G * a.massAst * b.massAst)/(pow(dist(a,b),2)) * sin(angle);
+    double forcex = (G * a->massAst * b->massAst)/(pow(dist(*a,*b),2)) * cos(angle);
+    double forcey = (G * a->massAst * b->massAst)/(pow(dist(*a,*b),2)) * sin(angle);
 
     //setForce(*a, forcex, forcey);
     //setForce(*b, -forcex, -forcey);
-    cout << a.fx << " fx" << endl;
-    a.fx = a.fx + forcex;
-    cout << a.fx << " fx after" << endl;
-    a.fy = a.fy + forcey;
+    a->fx = a->fx + forcex;
+    a->fy = a->fy + forcey;
 
-    b.fx = b.fx - forcex;
-    b.fy = b.fy - forcey;
+    b->fx = b->fx - forcex;
+    b->fy = b->fy - forcey;
 }
 
 int main() 
@@ -219,39 +217,46 @@ int main()
     for(int g = 0; g < num_iterations; g++){
         for (int i = 0; i < num_asteroids-1; i++)
         {
+            Asteroid a = Asteroids[i];
             for (int j = i+1; j < num_asteroids; j++)
             {
-                Asteroid a = Asteroids[i];
+                
                 Asteroid b = Asteroids[j];
 
-                updateForce(a, b);
-            }
-        }
-        for(int i = 0; i < num_asteroids; i++){
-            Asteroid a = Asteroids[i];
-            updatePosition(a);
-            if (a.x <= 0)
-            {
-                a.x = 2;
-            }
-
-            if (a.y <= 0)
-            {
-                a.y = 2;
-            }
-
-            if (a.x >= spacewidth)
-            {
-                a.x = spacewidth - 2;
-            }
-
-            if (a.y >= spaceheight)
-            {
-                a.y = spaceheight - 2;
+                updateForce(&a, &b);
+                cout << a.fx << endl;
+                
             }
         }
 
-        cout << Asteroids[1].fx << endl;
+        cout << "Forces: " << Asteroids[0].fx << endl;
+                for(int i = 0; i < num_asteroids; i++){
+                    
+                    cout << Asteroids[i].fx << endl;
+                    updatePosition(Asteroids[i]);
+
+                    if (Asteroids[i].x <= 0)
+                    {
+                        Asteroids[i].x = 2;
+                    }
+
+                    if (Asteroids[i].y <= 0)
+                    {
+                        Asteroids[i].y = 2;
+                    }
+
+                    if (Asteroids[i].x >= spacewidth)
+                    {
+                        Asteroids[i].x = spacewidth - 2;
+                    }
+
+                    if (Asteroids[i].y >= spaceheight)
+                    {
+                        Asteroids[i].y = spaceheight - 2;
+                    }
+            }
+        cout << "Distance: " << Asteroids[0].x << endl;
+        
 
     }
     
