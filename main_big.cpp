@@ -109,8 +109,6 @@ int num_asteroids, num_iterations, num_planets, seed;
 const double G = .00006674;
 const int spacewidth = 200;
 const int spaceheight = 200;
-const double height = 2; 
-const double width = 2;
 const double mass = 1000;
 const int sdm = 50;
 const double t = .1;
@@ -144,13 +142,21 @@ void setForce(Asteroid &a, double forcex, double forcey){
     a.fy = a.fy + forcey;
 }*/
 
-void updatePosition(Asteroid a){
-    a.xaccel = a.fx / a.massAst;
-    a.yaccel = a.fy / a.massAst;
-    a.xvel = a.xvel + a.xaccel * t;
-    a.yvel = a.yvel + a.yaccel * t;
-    a.x = a.x + a.xvel * t;
-    a.y = a.y + a.yvel * t;
+void updatePosition(Asteroid* a){
+    a->xaccel = a->fx / a->massAst;
+    a->yaccel = a->fy / a->massAst;
+    a->xvel = a->xvel + a->xaccel * t;
+    a->yvel = a->yvel + a->yaccel * t;
+    cout << "### Before ###" << endl;
+    cout << "x: " << a->x;
+    cout << " xvel: " << a->xvel;
+    cout << " t: " << t << endl << endl;
+    cout << " ### After ###" << endl;
+    a->x = a->x + a->xvel * t;
+    cout << "x: " << a->x;
+    cout << " xvel: " << a->xvel;
+    cout << " t: " << t << endl;
+    a->y = a->y + a->yvel * t;
 }
 
 double dist(Asteroid a, Asteroid b)
@@ -223,17 +229,15 @@ int main()
                 
                 Asteroid b = Asteroids[j];
 
-                updateForce(&a, &b);
-                cout << a.fx << endl;
+                //updateForce(&a, &b);
+                updateForce(&Asteroids[i], &Asteroids[j]);
+                cout << "Forces at : " << i << j << " " << Asteroids[i].fx << endl;
                 
             }
         }
-
-        cout << "Forces: " << Asteroids[0].fx << endl;
                 for(int i = 0; i < num_asteroids; i++){
-                    
-                    cout << Asteroids[i].fx << endl;
-                    updatePosition(Asteroids[i]);
+
+                    updatePosition(&Asteroids[i]);
 
                     if (Asteroids[i].x <= 0)
                     {
@@ -254,8 +258,10 @@ int main()
                     {
                         Asteroids[i].y = spaceheight - 2;
                     }
+
+                    //cout << "Distance: " << Asteroids[i].x << endl;
             }
-        cout << "Distance: " << Asteroids[0].x << endl;
+                    
         
 
     }
