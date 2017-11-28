@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
                     }
                 }
 
-                for (int h = 0; g < num_planets; h++){
+                for (int h = 0; h < num_planets; h++){
                     c = &Planets[h];
                     updatePlanet(a, c);
                 }
