@@ -20,6 +20,7 @@ double pos_ray;
 class Asteroid{
     public: 
         Asteroid();
+        ~Asteroid();
         Asteroid(double massin, double xin, double yin);
         void setForce(double fxin, double fyin);
         void updatePosition();
