@@ -94,6 +94,20 @@ void updatePlanet(Asteroid* a, Asteroid* b){
     a->fy = a->fy + forcey;
 }
 
+int main(int argc, char* argv[]) 
+{
+    if (argc < 6)
+    {
+        cout << "Input Failure" << endl;
+        return 1;
+    }
+
+    num_asteroids = argv[1];
+    num_iterations = argv[2];
+    num_planets = argv[3];
+    pos_ray = argv[4];
+    seed = argv[5];
+/*
 int main() 
 {
     cout << "Please enter the number asteroids to be simulated, greater or equal to 0: " << endl; 
@@ -108,6 +122,7 @@ int main()
         cout << "Input Failure." << endl;
         //exit;
     }
+*/
     
     Asteroid Asteroids[num_asteroids];
     Asteroid Planets[num_planets];
