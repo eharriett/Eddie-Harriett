@@ -125,7 +125,7 @@ int main(int argc, char* argv[])
     uniform_real_distribution<double> ydist{0.0, std::nextafter( spaceheight, std :: numeric_limits<double>::max())}; 
     normal_distribution<double> mdist{mass, sdm};
     
-    for (int i = 1; i < num_asteroids; i++)
+    for (int i = 0; i < num_asteroids; i++)
     {
         Asteroid a(mdist(re), xdist(re), ydist(re));
         Asteroids[i] = a;
