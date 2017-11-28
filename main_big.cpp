@@ -111,27 +111,11 @@ int main(int argc, char* argv[])
         }
     }
 
-    num_asteroids = (int)argv[1];
-    num_iterations = (int)argv[2];
-    num_planets = (int)argv[3];
-    pos_ray = (int)argv[4];
-    seed = (int)argv[5];
-/*
-int main() 
-{
-    cout << "Please enter the number asteroids to be simulated, greater or equal to 0: " << endl; 
-    cout << "Please enter the number of iterations that will be simulated, greater or equal to 0: " << endl;
-    cout << "Please enter the number of planets that will be simulated, greater or equal to 0: " << endl;
-    cout << "Please enter the position of the ray in space: " << endl;
-    cout << "Please enter a positive number for the random number generator: " << endl;
-    cin >> num_asteroids >> num_iterations >> num_planets >> pos_ray >> seed;
-
-    if (cin.fail() || num_asteroids < 0 || num_planets < 0 || num_iterations < 0 || seed < 0)
-    {
-        cout << "Input Failure." << endl;
-        //exit;
-    }
-*/
+    num_asteroids = atoi(argv[1]);
+    num_iterations = atoi(argv[2]);
+    num_planets = atoi(argv[3]);
+    pos_ray = atoi(argv[4]);
+    seed = atoi(argv[5]);
     
     Asteroid Asteroids[num_asteroids];
     Asteroid Planets[num_planets];
