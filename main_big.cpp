@@ -2,6 +2,8 @@
 #include <cmath>
 #include <random>
 #include <stdexcept>
+#include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -221,7 +223,7 @@ int main(int argc, char* argv[])
             {
                 if (Asteroids[g].destroyed = false)
                 {
-                    inFile << Asteroids[g].x << Asteroids[g].y << Asteroids[g].xvel << Asteroids[g].yvel << Asteroids[g].massAst << "\n";
+                    inFile << fixed << setprecision(3) << Asteroids[g].x << " " << Asteroids[g].y << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
                 }
             }
             inFile.close();
