@@ -213,5 +213,20 @@ int main(int argc, char* argv[])
 
     }
     
+    ofstream inFile;
+    inFile.open("out.txt");
+    if (inFile.is_open())
+    {
+            for (int g = 0; g < num_asteroids; g++)
+            {
+                if (Asteroids[g].destroyed = false)
+                {
+                    inFile << Asteroids[g].x << Asteroids[g].y << Asteroids[g].xvel << Asteroids[g].yvel << Asteroids[g].massAst << "\n";
+                }
+            }
+            inFile.close();
+        }
+        else cout << "Unable to open file";
+    
     return 0;
 }
