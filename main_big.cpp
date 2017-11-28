@@ -98,8 +98,17 @@ int main(int argc, char* argv[])
 {
     if (argc < 6)
     {
-        cout << "Input Failure" << endl;
+        cout << "Not enough parameters" << endl;
         return 1;
+    }
+
+    for (int i = 0; i < argc; i++)
+    {
+        if (argv[i] <= 0)
+        {
+            cout << "Invalid input" <<endl;
+            return 1;
+        }
     }
 
     num_asteroids = argv[1];
@@ -132,7 +141,7 @@ int main()
     uniform_real_distribution<double> ydist{0.0, std::nextafter( spaceheight, std :: numeric_limits<double>::max())}; 
     normal_distribution<double> mdist{mass, sdm};
     
-    for (int i = 0; i < num_asteroids; i++)
+    for (int i = 1; i < num_asteroids; i++)
     {
         Asteroid a(mdist(re), xdist(re), ydist(re));
         Asteroids[i] = a;
