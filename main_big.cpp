@@ -111,11 +111,11 @@ int main(int argc, char* argv[])
         }
     }
 
-    num_asteroids = argv[1];
-    num_iterations = argv[2];
-    num_planets = argv[3];
-    pos_ray = argv[4];
-    seed = argv[5];
+    num_asteroids = (int)argv[1];
+    num_iterations = (int)argv[2];
+    num_planets = (int)argv[3];
+    pos_ray = (int)argv[4];
+    seed = (int)argv[5];
 /*
 int main() 
 {
