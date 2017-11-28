@@ -45,15 +45,7 @@ void updatePosition(Asteroid* a){
     a->yaccel = a->yaccel + a->fy / a->massAst;
     a->xvel = a->xvel + a->xaccel * t;
     a->yvel = a->yvel + a->yaccel * t;
-    cout << "### Before ###" << endl;
-    cout << "x: " << a->x;
-    cout << " xvel: " << a->xvel;
-    cout << " t: " << t << endl << endl;
     a->x = a->x + a->xvel * t;
-    cout << " ### After ###" << endl;
-    cout << "x: " << a->x;
-    cout << " xvel: " << a->xvel;
-    cout << " t: " << t << endl;
     a->y = a->y + a->yvel * t;
 
     a->fx = 0;
@@ -153,61 +145,62 @@ int main(int argc, char* argv[])
         }
     }
 
-    for(int g = 0; g < num_iterations; g++){
-        
+    for(int g = 0; g < num_iterations; g++)
+    {
         for (int i = 0; i < num_asteroids-1; i++)
         {
+            Asteroid* a;
+            Asteroid* b;
+            Asteroid* c;
             if(Asteroids[i].destroyed == false){
-            Asteroid* a = &Asteroids[i];
-            for (int j = i+1; j < num_asteroids; j++)
-            {
-                if(Asteroids[j].destroyed == false){
-                Asteroid* b = &Asteroids[j];
+                a = &Asteroids[i];
+                for (int j = i+1; j < num_asteroids; j++)
+                {
+                    if(Asteroids[j].destroyed == false){
+                    b = &Asteroids[j];
 
-                updateForce(a, b);
-                cout << "Forces at : " << i << j << " " << Asteroids[i].fx << endl;
+                    updateForce(a, b);
+                    }
+                }
+
+                for (int h = 0; g < num_planets; h++){
+                    c = &Planets[h];
+                    updatePlanet(a, c);
                 }
             }
-            for (int g = 0; g < num_planets; g++){
-                Asteroid* c = &Planets[g];
-                updatePlanet(a, c);
-
-            }
-
         }
-    }
         
         for(int i = 0; i < num_asteroids; i++)
         {
             if(Asteroids[i].destroyed == false){
 
-                    updatePosition(&Asteroids[i]);
+                updatePosition(&Asteroids[i]);
 
-                    if (Asteroids[i].x <= 0)
+                if (Asteroids[i].x <= 0)
+                {
+                    Asteroids[i].x = 2;
+                }
+
+                if (Asteroids[i].y <= 0)
+                {
+                    Asteroids[i].y = 2;
+                }
+
+                if (Asteroids[i].x >= spacewidth)
+                {
+                    Asteroids[i].x = spacewidth - 2;
+                }
+
+                if (Asteroids[i].y >= spaceheight)
+                {
+                    Asteroids[i].y = spaceheight - 2;
+                }
+
+                //laser
+                if (Asteroids[i].y >= pos_ray-2 && Asteroids[i].y <= pos_ray+2)
                     {
-                        Asteroids[i].x = 2;
+                        Asteroids[i].destroyed = true; 
                     }
-
-                    if (Asteroids[i].y <= 0)
-                    {
-                        Asteroids[i].y = 2;
-                    }
-
-                    if (Asteroids[i].x >= spacewidth)
-                    {
-                        Asteroids[i].x = spacewidth - 2;
-                    }
-
-                    if (Asteroids[i].y >= spaceheight)
-                    {
-                        Asteroids[i].y = spaceheight - 2;
-                    }
-
-                    //laser
-                    if (Asteroids[i].y >= pos_ray-2 && Asteroids[i].y <= pos_ray+2)
-                        {
-                            Asteroids[i].destroyed = true; 
-                        }
             }
 
                     //cout << "Distance: " << Asteroids[i].x << endl;
@@ -221,9 +214,10 @@ int main(int argc, char* argv[])
     {
             for (int g = 0; g < num_asteroids; g++)
             {
-                if (Asteroids[g].destroyed = false)
+                if (Asteroids[g].destroyed == false)
                 {
-                    inFile << fixed << setprecision(3) << Asteroids[g].x << " " << Asteroids[g].y << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
+                    cout << Asteroids[g].y << endl;
+                    inFile << fixed << setprecision(3) << Asteroids[g].y << " " << Asteroids[g].x << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
                 }
             }
             inFile.close();
