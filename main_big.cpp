@@ -112,6 +112,7 @@ const int spaceheight = 200;
 const double mass = 1000;
 const int sdm = 50;
 const double t = .1;
+const double ray_width = 2;
 double pos_ray;
 
 class Asteroid{
@@ -124,6 +125,7 @@ class Asteroid{
         double fx, fy;
         double x, y;
         double xvel, yvel, xaccel, yaccel;
+        bool destroyed;
 };
 Asteroid::Asteroid(void){
 }
@@ -133,6 +135,7 @@ Asteroid::Asteroid(double massin, double xin, double yin){
     y = yin;
     massAst = massin;
     fx = 0; fy = 0; xvel = 0; yvel = 0; xaccel = 0; yaccel = 0;
+    destroyed = false;
 }
 /*
 void setForce(Asteroid &a, double forcex, double forcey){
@@ -151,8 +154,8 @@ void updatePosition(Asteroid* a){
     cout << "x: " << a->x;
     cout << " xvel: " << a->xvel;
     cout << " t: " << t << endl << endl;
-    cout << " ### After ###" << endl;
     a->x = a->x + a->xvel * t;
+    cout << " ### After ###" << endl;
     cout << "x: " << a->x;
     cout << " xvel: " << a->xvel;
     cout << " t: " << t << endl;
@@ -161,9 +164,7 @@ void updatePosition(Asteroid* a){
 
 double dist(Asteroid a, Asteroid b)
 {
-    double dista = sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
-    return dista;
-
+    return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
 }
 
 void updateForce(Asteroid* a, Asteroid* b)
@@ -201,7 +202,7 @@ int main()
     }
     
     Asteroid Asteroids[num_asteroids];
-    //Planet Planets[some number];
+    Asteroid Planets[num_planets];
 
     default_random_engine re{seed}; 
     uniform_real_distribution<double> xdist{0.0, std::nextafter(spacewidth, std :: numeric_limits<double>::max())}; 
@@ -214,28 +215,61 @@ int main()
         Asteroids[i] = a;
     }
 
-   /* for (int i = 0; i < (num_planets); i++)
+    for (int i = 0; i < num_planets; i++)
     {
-        Planets[i].x = xdist(re);
-        Asteroids[i].y = ydist(re);
-        Asteroids[i].mass = mdist(re) * 10;
-    } */
+        if(i%4 == 0){
+            Asteroid a(mdist(re)*10, 0, ydist(re));
+            Planets[i] = a;
+        }
+        else if(i%4 == 1){
+            Asteroid a(mdist(re)*10, xdist(re), 200);
+            Planets[i] = a;
+        }
+        else if(i%4 == 2){
+            Asteroid a(mdist(re)*10, 200, ydist(re));
+            Planets[i] = a;
+        }
+        else{
+            Asteroid a(mdist(re)*10, xdist(re), 0);
+            Planets[i] = a;
+        }
+    }
+
     for(int g = 0; g < num_iterations; g++){
+        
         for (int i = 0; i < num_asteroids-1; i++)
         {
+            if(Asteroids[i].destroyed == false){
             Asteroid a = Asteroids[i];
             for (int j = i+1; j < num_asteroids; j++)
             {
                 
+                if(Asteroids[j].destroyed == false){
                 Asteroid b = Asteroids[j];
 
                 //updateForce(&a, &b);
                 updateForce(&Asteroids[i], &Asteroids[j]);
                 cout << "Forces at : " << i << j << " " << Asteroids[i].fx << endl;
-                
+                }
             }
+            for (int g = 0; g < num_planets; g++){
+                Asteroid c = Planets[g];
+                double slope = (a.y - c.y)/(a.x - c.x);
+                if(slope > 1 || slope < -1){
+                    slope = slope - trunc(slope);
+                }
+                double angle = atan(slope);
+                a.fx = a.fx + (G * a.massAst * c.massAst)/(pow(dist(a,c),2)) * cos(angle);
+                a.fy = a.fy + (G * a.massAst * c.massAst)/(pow(dist(a,c),2)) * sin(angle);
+
+            }
+
         }
-                for(int i = 0; i < num_asteroids; i++){
+    }
+        
+        for(int i = 0; i < num_asteroids; i++)
+        {
+            if(Asteroids[i].destroyed == false){
 
                     updatePosition(&Asteroids[i]);
 
@@ -259,10 +293,15 @@ int main()
                         Asteroids[i].y = spaceheight - 2;
                     }
 
-                    //cout << "Distance: " << Asteroids[i].x << endl;
+                    //laser
+                    if (Asteroids[i].y + ray_width >= pos_ray or Asteroids[i].y - ray_width <= pos_ray)
+                        {
+                            Asteroids[i].destroyed = true; 
+                        }
             }
-                    
-        
+
+                    //cout << "Distance: " << Asteroids[i].x << endl;
+        }
 
     }
     
