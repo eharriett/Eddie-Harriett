@@ -3,6 +3,7 @@
 #include <random>
 #include <stdexcept>
 #include <fstream>
+#include <omp>
 #include <iomanip>
 #include <chrono>
 
@@ -246,22 +247,22 @@ int main(int argc, char* argv[])
                 updatePosition(&Asteroids[i]);
 
                 //if the asteroid's x or y position is within 2 from the edge, set it to 2
-                if (Asteroids[i].x < 2){
+                if (Asteroids[i].x <= 0){
                     Asteroids[i].x = 2;
                     Asteroids[i].xvel = -Asteroids[i].xvel;
                 }
 
-                if (Asteroids[i].y < 2){
+                if (Asteroids[i].y <= 0){
                     Asteroids[i].y = 2;
                     Asteroids[i].yvel = -Asteroids[i].yvel;
                 }
 
-                if (Asteroids[i].x > spacewidth - 2){
+                if (Asteroids[i].x >= spacewidth){
                     Asteroids[i].x = spacewidth - 2;
                     Asteroids[i].xvel = -Asteroids[i].xvel;
                 }                    
 
-                if (Asteroids[i].y > spaceheight - 2){
+                if (Asteroids[i].y >= spaceheight){
                     Asteroids[i].y = spaceheight - 2;
                     Asteroids[i].yvel = -Asteroids[i].yvel;
                 }
