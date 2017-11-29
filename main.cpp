@@ -4,8 +4,10 @@
 #include <stdexcept>
 #include <fstream>
 #include <iomanip>
+#include <chrono>
 
 using namespace std;
+using clk = chrono::high_resolution_clock;
 
 //declaration of constants
 int num_asteroids, num_iterations, num_planets, seed;
@@ -137,6 +139,8 @@ int main(int argc, char* argv[])
             return 1;
         }
     }
+    //start timer
+    auto t1 = clk::now();
 
     //sets inputted values to corresponding variables
     num_asteroids = atoi(argv[1]);
@@ -258,6 +262,12 @@ int main(int argc, char* argv[])
         }
     }
     
+    //end timer
+    auto t2 = clk::now();
+    //calculate difference
+    auto diff = duration_cast<microseconds>(t2-t1);
+    cout << "Time = " << diff.count << "microseconds" << endl;
+
     //writes to file called out.txt
     ofstream inFile;
     inFile.open("out.txt");
