@@ -215,7 +215,9 @@ int main(int argc, char* argv[])
                     if(Asteroids[j].destroyed == false)
                     {
                         b = &Asteroids[j];
-                        updateForce(a, b);
+                        if(dist(a,b) > 2){
+                            updateForce(a, b);
+                        }
                     }
                 }
 
