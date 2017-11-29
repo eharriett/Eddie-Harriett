@@ -7,6 +7,7 @@
 #include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 using clk = chrono::high_resolution_clock;
 
 //declaration of constants
