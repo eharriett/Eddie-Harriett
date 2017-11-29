@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iomanip>
 #include <chrono>
-#include <omp>
+#include <omp.h>
 
 using namespace std;
 using namespace std::chrono;
