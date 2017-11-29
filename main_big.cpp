@@ -23,7 +23,7 @@ class Asteroid{
     public: 
         Asteroid();
         Asteroid(double massin, double xin, double yin);
-        ~Asteroid();
+      //  ~Asteroid();
         void updatePosition();
         double massAst;
         double fx, fy;
@@ -133,8 +133,11 @@ int main(int argc, char* argv[])
     pos_ray = atoi(argv[4]);
     seed = atoi(argv[5]);
     
-    Asteroid Asteroids[num_asteroids];
-    Asteroid Planets[num_planets];
+    vector<Asteroid>Asteroids(num_asteroids);
+    vector<Asteroid>Planets(num_planets);
+    
+ //   Asteroid Asteroids[num_asteroids];
+ //   Asteroid Planets[num_planets];
 
     default_random_engine re{seed}; 
     uniform_real_distribution<double> xdist{0.0, std::nextafter(spacewidth, std :: numeric_limits<double>::max())}; 
