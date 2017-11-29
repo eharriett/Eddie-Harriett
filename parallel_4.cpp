@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <fstream>
 #include <iomanip>
-#include <omp>
+#include <omp.h>
 #include <chrono>
 
 using namespace std;
