@@ -7,6 +7,7 @@
 
 using namespace std;
 
+//declaration of constants
 int num_asteroids, num_iterations, num_planets, seed;
 const double G = .00006674;
 const int spacewidth = 200;
@@ -17,6 +18,7 @@ const double t = .1;
 const double ray_width = 2;
 double pos_ray;
 
+//class for asteroids and planets
 class Asteroid{
     public: 
         Asteroid();
@@ -30,8 +32,13 @@ class Asteroid{
         bool destroyed;
 };
 
+//default constructor
 Asteroid::Asteroid(void){}
 
+//default destructor
+Asteroid::~Asteroid(void){}
+
+//constructor
 Asteroid::Asteroid(double massin, double xin, double yin)
 {
     x = xin;
@@ -41,38 +48,50 @@ Asteroid::Asteroid(double massin, double xin, double yin)
     destroyed = false;
 }
 
+//updates the all values for the asteroids
 void updatePosition(Asteroid* a)
 {
-    a->xaccel = a->xaccel + a->fx / a->massAst;
+    //updates acceleration
+    a->xaccel = a->xaccel + a->fx / a->massAst; //a = f/m
     a->yaccel = a->yaccel + a->fy / a->massAst;
-    a->xvel = a->xvel + a->xaccel * t;
+    
+    //updates velocity
+    a->xvel = a->xvel + a->xaccel * t; //v = at
     a->yvel = a->yvel + a->yaccel * t;
-    a->x = a->x + a->xvel * t;
+    
+    //updates position
+    a->x = a->x + a->xvel * t; //p = vt
     a->y = a->y + a->yvel * t;
 
+    //resets the forces for the next iteration
     a->fx = 0;
     a->fy = 0;
 }
 
+//calculates the distance betweek 2 objects
 double dist(Asteroid *a, Asteroid *b)
 {
     return sqrt(pow(a->x - b->x, 2) + pow(a->y - b->y, 2));
 }
 
+//calculates the force between two objects and updates both
 void updateForce(Asteroid* a, Asteroid* b)
 {
+    //finds slope
     double slope = (a->y - b->y)/(a->x - b->x);
     if(slope > 1 || slope < -1)
-    {
         slope = slope - trunc(slope);
-    }
+    
+    //finds angle 
     double angle = atan(slope); 
     double forcex = (G * a->massAst * b->massAst)/(pow(dist(a,b),2)) * cos(angle);
     double forcey = (G * a->massAst * b->massAst)/(pow(dist(a,b),2)) * sin(angle);
 
+    //updates forces for object a
     a->fx = a->fx + forcex;
     a->fy = a->fy + forcey;
 
+    //updates forces for object b
     b->fx = b->fx - forcex;
     b->fy = b->fy - forcey;
 }
