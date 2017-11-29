@@ -21,7 +21,7 @@ double pos_ray;
 //class for asteroids and planets
 class Asteroid{
     public: 
-        Asteroid(double massin, double xin, double yin);
+        Asteroid(double massin, double yin, double xin);
         void updatePosition();
         double massAst;
         double fx, fy;
@@ -51,8 +51,8 @@ void updatePosition(Asteroid* a)
     }
     
     //updates acceleration
-    a->xaccel = a->xaccel + a->fx / a->massAst; //a = f/m
-    a->yaccel = a->yaccel + a->fy / a->massAst;
+    a->xaccel = a->fx / a->massAst; //a = f/m
+    a->yaccel = a->fy / a->massAst;
     
     //updates velocity
     a->xvel = a->xvel + a->xaccel * t; //v = at
@@ -262,7 +262,7 @@ int main(int argc, char* argv[])
             if (Asteroids[g].destroyed == false)
             {
                 cout << Asteroids[g].y << endl;
-                inFile << fixed << setprecision(3) << Asteroids[g].y << " " << Asteroids[g].x << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
+                inFile << fixed << setprecision(3) << Asteroids[g].x << " " << Asteroids[g].y << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
             }
         }
         inFile.close();
