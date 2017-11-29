@@ -21,7 +21,7 @@ double pos_ray;
 //class for asteroids and planets
 class Asteroid{
     public: 
-        Asteroid();
+      //  Asteroid();
         Asteroid(double massin, double xin, double yin);
       //  ~Asteroid();
         void updatePosition();
@@ -33,10 +33,10 @@ class Asteroid{
 };
 
 //default constructor
-Asteroid::Asteroid(void){}
+//Asteroid::Asteroid(void){}
 
 //default destructor
-Asteroid::~Asteroid(void){}
+//Asteroid::~Asteroid(void){}
 
 //constructor
 Asteroid::Asteroid(double massin, double xin, double yin)
@@ -133,8 +133,8 @@ int main(int argc, char* argv[])
     pos_ray = atoi(argv[4]);
     seed = atoi(argv[5]);
     
-    vector<Asteroid>Asteroids(num_asteroids);
-    vector<Asteroid>Planets(num_planets);
+    vector<Asteroid>Asteroids;
+    vector<Asteroid>Planets;
     
  //   Asteroid Asteroids[num_asteroids];
  //   Asteroid Planets[num_planets];
@@ -147,7 +147,7 @@ int main(int argc, char* argv[])
     for (int i = 0; i < num_asteroids; i++)
     {
         Asteroid a(mdist(re), xdist(re), ydist(re));
-        Asteroids[i] = a;
+        Asteroids.push_back(a);
     }
 
     for (int i = 0; i < num_planets; i++)
@@ -155,22 +155,22 @@ int main(int argc, char* argv[])
         if(i%4 == 0)
         {
             Asteroid a(mdist(re)*10, 0, ydist(re));
-            Planets[i] = a;
+            Planets.push_back(a);
         }
         else if(i%4 == 1)
         {
             Asteroid a(mdist(re)*10, xdist(re), 200);
-            Planets[i] = a;
+            Planets.push_back(a);
         }
         else if(i%4 == 2)
         {
             Asteroid a(mdist(re)*10, 200, ydist(re));
-            Planets[i] = a;
+            Planets.push_back(a);
         }
         else
         {
             Asteroid a(mdist(re)*10, xdist(re), 0);
-            Planets[i] = a;
+            Planets.push_back(a);
         }
     }
 
