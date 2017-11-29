@@ -31,7 +31,7 @@ class Asteroid{
 };
 
 //constructor
-Asteroid::Asteroid(double massin, double xin, double yin)
+Asteroid::Asteroid(double massin, double yin, double xin)
 {
     x = xin;
     y = yin;
@@ -47,6 +47,12 @@ void updatePosition(Asteroid* a)
         a->fx = 200;
     }
     if(a->fy > 200){
+        a->fy = 200;
+    }
+    if(a->fx < -200){
+        a->fx = -200;
+    }
+    if(a->fy < -200){
         a->fy = 200;
     }
     
