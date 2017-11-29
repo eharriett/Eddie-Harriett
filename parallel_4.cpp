@@ -21,7 +21,7 @@ double pos_ray;
 //class for asteroids and planets
 class Asteroid{
     public: 
-        Asteroid(double massin, double xin, double yin);
+        Asteroid(double massin, double yin, double xin);
         void updatePosition();
         double massAst;
         double fx, fy;
@@ -51,8 +51,8 @@ void updatePosition(Asteroid* a)
     }
     
     //updates acceleration
-    a->xaccel = a->xaccel + a->fx / a->massAst; //a = f/m
-    a->yaccel = a->yaccel + a->fy / a->massAst;
+    a->xaccel = a->fx / a->massAst; //a = f/m
+    a->yaccel = a->fy / a->massAst;
     
     //updates velocity
     a->xvel = a->xvel + a->xaccel * t; //v = at
@@ -149,18 +149,18 @@ int main(int argc, char* argv[])
     uniform_real_distribution<double> ydist{0.0, std::nextafter( spaceheight, std :: numeric_limits<double>::max())}; 
     normal_distribution<double> mdist{mass, sdm};
     
+    //assigns random values for the asteroids
     #pragma omp parallel num_threads(4)
     #pragma omp for
-    //assigns random values for the asteroids
     for (int i = 0; i < num_asteroids; i++)
     {
         Asteroid a(mdist(re), xdist(re), ydist(re));
         Asteroids.push_back(a);
     }
 
-    #pragma omp parallel num_threads(4)
-    #pragma omp for    
     //assigns random values for the planets
+    #pragma omp parallel num_threads(4)
+    #pragma omp for
     for (int i = 0; i < num_planets; i++)
     {
         if(i%4 == 0)
@@ -188,9 +188,9 @@ int main(int argc, char* argv[])
     //loop through iterations
     for(int g = 0; g < num_iterations; g++)
     {
+        //loop through all asteroids in order to update the force
         #pragma omp parallel num_threads(4)
         #pragma omp for
-        //loop through all asteroids in order to update the force
         for (int i = 0; i < num_asteroids-1; i++)
         {
             //creates pointers to an asteroid so we can pass them to other functions
@@ -223,9 +223,9 @@ int main(int argc, char* argv[])
             }
         }
         
+        //loop through all asteroids in order to update the positions
         #pragma omp parallel num_threads(4)
         #pragma omp for
-        //loop through all asteroids in order to update the positions
         for(int i = 0; i < num_asteroids; i++)
         {
             if(Asteroids[i].destroyed == false)
@@ -270,7 +270,7 @@ int main(int argc, char* argv[])
             if (Asteroids[g].destroyed == false)
             {
                 cout << Asteroids[g].y << endl;
-                inFile << fixed << setprecision(3) << Asteroids[g].y << " " << Asteroids[g].x << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
+                inFile << fixed << setprecision(3) << Asteroids[g].x << " " << Asteroids[g].y << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
             }
         }
         inFile.close();
