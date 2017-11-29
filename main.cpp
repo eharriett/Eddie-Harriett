@@ -280,7 +280,6 @@ int main(int argc, char* argv[])
         {
             if (Asteroids[g].destroyed == false)
             {
-                cout << Asteroids[g].y << endl;
                 inFile << fixed << setprecision(3) << Asteroids[g].x << " " << Asteroids[g].y << " " << Asteroids[g].xvel << " " << Asteroids[g].yvel << " " << Asteroids[g].massAst << "\n";
             }
         }
