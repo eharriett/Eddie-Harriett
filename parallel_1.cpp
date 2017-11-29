@@ -3,6 +3,7 @@
 #include <random>
 #include <stdexcept>
 #include <fstream>
+#include <omp>
 #include <iomanip>
 #include <chrono>
 
