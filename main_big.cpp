@@ -43,6 +43,13 @@ Asteroid::Asteroid(double massin, double xin, double yin)
 //updates the all values for the asteroids
 void updatePosition(Asteroid* a)
 {
+    if(a->fx > 200){
+        a->fx = 200;
+    }
+    if(a->fy > 200){
+        a->fy = 200;
+    }
+    
     //updates acceleration
     a->xaccel = a->xaccel + a->fx / a->massAst; //a = f/m
     a->yaccel = a->yaccel + a->fy / a->massAst;
@@ -218,17 +225,25 @@ int main(int argc, char* argv[])
                 updatePosition(&Asteroids[i]);
 
                 //if the asteroid's x or y position is within 2 from the edge, set it to 2
-                if (Asteroids[i].x < 2)
+                if (Asteroids[i].x < 2){
                     Asteroids[i].x = 2;
+                    Asteroids[i].xvel = -Asteroids[i].xvel;
+                }
 
-                if (Asteroids[i].y < 2)
+                if (Asteroids[i].y < 2){
                     Asteroids[i].y = 2;
+                    Asteroids[i].yvel = -Asteroids[i].yvel;
+                }
 
-                if (Asteroids[i].x > spacewidth - 2)
+                if (Asteroids[i].x > spacewidth - 2){
                     Asteroids[i].x = spacewidth - 2;
+                    Asteroids[i].xvel = -Asteroids[i].xvel;
+                }                    
 
-                if (Asteroids[i].y > spaceheight - 2)
+                if (Asteroids[i].y > spaceheight - 2){
                     Asteroids[i].y = spaceheight - 2;
+                    Asteroids[i].yvel = -Asteroids[i].yvel;
+                }
 
                 //checks if asteroid hit the laser
                 if (Asteroids[i].y >= pos_ray-2 && Asteroids[i].y <= pos_ray+2)
