@@ -162,8 +162,6 @@ int main(int argc, char* argv[])
     normal_distribution<double> mdist{mass, sdm};
     
     //assigns random values for the asteroids
-    #pragma omp parallel num_threads(2)
-    #pragma omp for
     for (int i = 0; i < num_asteroids; i++)
     {
         Asteroid a(mdist(re), xdist(re), ydist(re));
@@ -171,8 +169,6 @@ int main(int argc, char* argv[])
     }
 
     //assigns random values for the planets
-    #pragma omp parallel num_threads(2)
-    #pragma omp for
     for (int i = 0; i < num_planets; i++)
     {
         if(i%4 == 0)
