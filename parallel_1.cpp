@@ -8,6 +8,7 @@
 #include <chrono>
 
 using namespace std;
+using namespace std::chrono;
 using clk = chrono::high_resolution_clock;
 
 //declaration of constants
@@ -270,7 +271,7 @@ int main(int argc, char* argv[])
     auto t2 = clk::now();
     //calculate difference
     auto diff = duration_cast<microseconds>(t2-t1);
-    cout << "Time = " << diff.count << "microseconds" << endl;
+    cout << "Time = " << diff.count() << "microseconds" << endl;
  
     //writes to file called out.txt
     ofstream inFile;
