@@ -20,9 +20,8 @@ double pos_ray;
 class Asteroid{
     public: 
         Asteroid();
-        ~Asteroid();
         Asteroid(double massin, double xin, double yin);
-        void setForce(double fxin, double fyin);
+        ~Asteroid();
         void updatePosition();
         double massAst;
         double fx, fy;
@@ -30,10 +29,11 @@ class Asteroid{
         double xvel, yvel, xaccel, yaccel;
         bool destroyed;
 };
-Asteroid::Asteroid(void){
-}
 
-Asteroid::Asteroid(double massin, double xin, double yin){
+Asteroid::Asteroid(void){}
+
+Asteroid::Asteroid(double massin, double xin, double yin)
+{
     x = xin;
     y = yin;
     massAst = massin;
@@ -41,7 +41,8 @@ Asteroid::Asteroid(double massin, double xin, double yin){
     destroyed = false;
 }
 
-void updatePosition(Asteroid* a){
+void updatePosition(Asteroid* a)
+{
     a->xaccel = a->xaccel + a->fx / a->massAst;
     a->yaccel = a->yaccel + a->fy / a->massAst;
     a->xvel = a->xvel + a->xaccel * t;
@@ -61,7 +62,8 @@ double dist(Asteroid *a, Asteroid *b)
 void updateForce(Asteroid* a, Asteroid* b)
 {
     double slope = (a->y - b->y)/(a->x - b->x);
-    if(slope > 1 || slope < -1){
+    if(slope > 1 || slope < -1)
+    {
         slope = slope - trunc(slope);
     }
     double angle = atan(slope); 
@@ -75,12 +77,12 @@ void updateForce(Asteroid* a, Asteroid* b)
     b->fy = b->fy - forcey;
 }
 
-void updatePlanet(Asteroid* a, Asteroid* b){
-
+void updatePlanet(Asteroid* a, Asteroid* b)
+{
     double slope = (a->y - b->y)/(a->x - b->x);
-    if(slope > 1 || slope < -1){
+    if(slope > 1 || slope < -1)
         slope = slope - trunc(slope);
-    }
+
     double angle = atan(slope); 
     double forcex = (G * a->massAst * b->massAst)/(pow(dist(a,b),2)) * cos(angle);
     double forcey = (G * a->massAst * b->massAst)/(pow(dist(a,b),2)) * sin(angle);
@@ -99,7 +101,7 @@ int main(int argc, char* argv[])
 
     for (int i = 0; i < argc; i++)
     {
-        if (argv[i] < 0)
+        if (atoi(argv[i]) < 0)
         {
             cout << "Invalid input" <<endl;
             return 1;
@@ -128,19 +130,23 @@ int main(int argc, char* argv[])
 
     for (int i = 0; i < num_planets; i++)
     {
-        if(i%4 == 0){
+        if(i%4 == 0)
+        {
             Asteroid a(mdist(re)*10, 0, ydist(re));
             Planets[i] = a;
         }
-        else if(i%4 == 1){
+        else if(i%4 == 1)
+        {
             Asteroid a(mdist(re)*10, xdist(re), 200);
             Planets[i] = a;
         }
-        else if(i%4 == 2){
+        else if(i%4 == 2)
+        {
             Asteroid a(mdist(re)*10, 200, ydist(re));
             Planets[i] = a;
         }
-        else{
+        else
+        {
             Asteroid a(mdist(re)*10, xdist(re), 0);
             Planets[i] = a;
         }
@@ -153,18 +159,20 @@ int main(int argc, char* argv[])
             Asteroid* a;
             Asteroid* b;
             Asteroid* c;
-            if(Asteroids[i].destroyed == false){
+            if(Asteroids[i].destroyed == false)
+            {
                 a = &Asteroids[i];
                 for (int j = i+1; j < num_asteroids; j++)
                 {
-                    if(Asteroids[j].destroyed == false){
-                    b = &Asteroids[j];
-
-                    updateForce(a, b);
+                    if(Asteroids[j].destroyed == false)
+                    {
+                        b = &Asteroids[j];
+                        updateForce(a, b);
                     }
                 }
 
-                for (int h = 0; h < num_planets; h++){
+                for (int h = 0; h < num_planets; h++)
+                {
                     c = &Planets[h];
                     updatePlanet(a, c);
                 }
@@ -173,40 +181,27 @@ int main(int argc, char* argv[])
         
         for(int i = 0; i < num_asteroids; i++)
         {
-            if(Asteroids[i].destroyed == false){
-
+            if(Asteroids[i].destroyed == false)
+            {
                 updatePosition(&Asteroids[i]);
 
                 if (Asteroids[i].x <= 0)
-                {
                     Asteroids[i].x = 2;
-                }
 
                 if (Asteroids[i].y <= 0)
-                {
                     Asteroids[i].y = 2;
-                }
 
                 if (Asteroids[i].x >= spacewidth)
-                {
                     Asteroids[i].x = spacewidth - 2;
-                }
 
                 if (Asteroids[i].y >= spaceheight)
-                {
                     Asteroids[i].y = spaceheight - 2;
-                }
 
                 //laser
                 if (Asteroids[i].y >= pos_ray-2 && Asteroids[i].y <= pos_ray+2)
-                    {
                         Asteroids[i].destroyed = true; 
-                    }
             }
-
-                    //cout << "Distance: " << Asteroids[i].x << endl;
         }
-
     }
     
     ofstream inFile;
