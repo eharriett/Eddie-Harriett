@@ -3,7 +3,7 @@
 #include <random>
 #include <stdexcept>
 #include <fstream>
-#include <omp>
+#include <omp.h>
 #include <iomanip>
 #include <chrono>
 
